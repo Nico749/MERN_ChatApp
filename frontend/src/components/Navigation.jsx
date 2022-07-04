@@ -11,7 +11,7 @@ function Navigation() {
         <LinkContainer to='/'>
         <Navbar.Brand>
             <img src={chatLogo} style = {{width:50, height:50}}/>
-            MAM</Navbar.Brand></LinkContainer>
+            </Navbar.Brand></LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
             {/* ms-auto put it to the right */}
