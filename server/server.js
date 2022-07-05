@@ -6,6 +6,9 @@ const cors = require('cors')
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(cors())
+//CONNECT THE DB
+require('./connection')
+
 
 const server = require('http').createServer(app)
 const PORT = 5000
