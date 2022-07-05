@@ -26,7 +26,7 @@ function Signup() {
       setImgPreview(URL.createObjectURL(file))
     }
   }
-
+//IMPLEMENTING CLOUDINARY
   async function uploadImage(){
     const data = new FormData()
     data.append('file',image)
@@ -91,7 +91,7 @@ function Signup() {
       </Form.Group>
      
       <Button variant="primary" type="submit">
-        Signup
+        {uploadingImg ? 'Signing you up....': 'Signup'}
       </Button>
       <div className='py-4'>
         <p className='text-center'>
