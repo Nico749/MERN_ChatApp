@@ -33,6 +33,32 @@ const UserSchema = new mongoose.Schema({
 }, {minimize:false})
 // with minimize we can have empry obj by default and it will not throw an error
 
+// HOOK TO HASHING THE PASSWORD BEFORE START DOING ANYTHING ELSE
+UserSchema.pre('save', function(next){
+    const user = this
+    if(!user.isModified('password')) return next()
+
+    bcrypt.genSalt(10, function(err,salt){
+        if(err) return next(err)
+
+        bcrypt.hash(user.password, salt, function(err,hash){
+            if(err) return next(err)
+
+            user.password = hash
+            next()
+        })
+    })
+})
+
+//RETURN EVERYTHING EXCEPT THE PASSWORD
+UserSchema.methods.toJSON = function(){
+    const user = this
+    const userObject = user.toObject()
+    delete userObject.password
+    return userObject
+}
+
+
 //creating findByCredentials function
 UserSchema.statics.findByCredentials = async function(email,password){
     const user = await User.findOne({email})
