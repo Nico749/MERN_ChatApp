@@ -1,10 +1,11 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css'
 import avatar from '../assets/avatar.png'
 import { useState } from 'react';
+import { useSignupUserMutation } from '../services/appApi';
 
 
 function Signup() {
@@ -14,6 +15,9 @@ function Signup() {
   const [image,setImage] = useState(null)
   const [uploadingImg, setUploadingImg]=useState(false)
   const [imgPreview, setImgPreview] = useState(null)
+  const navigate = useNavigate()
+  const [signupUser, {isLoading,error}] = useSignupUserMutation()
+
 
   function validateImg(e){
     const file = e.target.files[0]
@@ -54,7 +58,14 @@ function Signup() {
       return alert("Missing profile picture")
     }
     const url = await uploadImage(image)
-    console.log(url)
+   // console.log(url)
+    //signup the user and navigate to the chat page once signed up
+    signupUser({name, email,password,picture:url}).then(({data}) =>{
+      if (data){
+       // console.log(data)
+        navigate("/chat")
+      }
+    })
   }
   
 
